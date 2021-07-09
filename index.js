@@ -9,7 +9,7 @@ const app = express();
 // req: object of incoming request
 // res: object of outgoing response
 app.get('/', (req, res) => {
-    res.send({hi: 'there'}); // send some json back to whoever made this request
+    res.send({bye: '888'}); // send some json back to whoever made this request
 });
 
 // by https://dashboard.heroku.com/apps or local test default=5000

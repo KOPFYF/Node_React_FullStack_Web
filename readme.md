@@ -1,0 +1,1 @@
+This project includes the fullstack web development codes using node.js, React, Redux, Express server, PassportJS and MangoDB.
