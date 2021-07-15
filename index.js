@@ -1,35 +1,22 @@
 const express = require('express'); // import express as express
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const mongoose = require('mongoose'); // package to interact with MongoDB
 const keys = require('./config/keys');
+
+require('./models/User'); // load user schema, then it is used in passport.js
+require('./services/passport'); // execute passport.js
+
+
+mongoose.connect(keys.mongoURI, 
+    {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    }
+);
 
 const app = express();
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: keys.googleClientID,
-      clientSecret: keys.googleClientSecret,
-      callbackURL: '/auth/google/callback'
-    },
-    accessToken => {
-      console.log(accessToken);
-    }
-  )
-);
-
-app.get(
-  '/auth/google',
-  passport.authenticate('google', {
-    scope: ['profile', 'email'] // ouath credential works here
-  })
-);
-
-
-app.get('/auth/google/callback',
-  passport.authenticate('google') // redirect to server
-);
-
+require('./routes/authRoutes')(app); // call authRoutes as a method
 
 // by https://dashboard.heroku.com/apps or local test default=5000
 const PORT = process.env.PORT || 5000; 
